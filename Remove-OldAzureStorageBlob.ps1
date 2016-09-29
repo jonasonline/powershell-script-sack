@@ -10,7 +10,7 @@ Param(
    [string]$StorageContainerName,
 
    [Parameter(Mandatory=$True)]
-   [date]$OlderThanDate
+   [datetime]$OlderThanDate
 )
 $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
 $container = Get-AzureStorageContainer -Name $StorageContainerName -Context $context
