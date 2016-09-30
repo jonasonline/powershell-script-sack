@@ -10,8 +10,8 @@ Param(
    [string]$StorageContainerName,
 
    [Parameter(Mandatory=$True)]
-   [datetime]$OlderThanDate
+   [datetime]$OlderThanDateTime
 )
 $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
 $container = Get-AzureStorageContainer -Name $StorageContainerName -Context $context
-Get-AzureStorageBlob -Container $container.Name -Context $context | Where-Object {$_.LastModified -lt $OlderThanDate} | Remove-AzureStorageBlob
+Get-AzureStorageBlob -Container $container.Name -Context $context | Where-Object {$_.LastModified -lt $OlderThanDateTime} | Remove-AzureStorageBlob
