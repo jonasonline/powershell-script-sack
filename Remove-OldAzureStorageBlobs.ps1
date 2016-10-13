@@ -1,17 +1,17 @@
 [CmdletBinding()]
 Param(
   [Parameter(Mandatory=$True)]
-   [string]$StorageAccountName,
+   [String]$StorageAccountName,
 	
    [Parameter(Mandatory=$True)]
-   [string]$StorageAccountKey,
+   [String]$StorageAccountKey,
 
    [Parameter(Mandatory=$True)]
-   [string]$StorageContainerName,
+   [String]$StorageContainerName,
 
    [Parameter(Mandatory=$True)]
-   [datetime]$OlderThanDateTime
+   [Int]$CleanupTime
 )
 $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
 $container = Get-AzureStorageContainer -Name $StorageContainerName -Context $context
-Get-AzureStorageBlob -Container $container.Name -Context $context | Where-Object {$_.LastModified -lt $OlderThanDateTime} | Remove-AzureStorageBlob
+Get-AzureStorageBlob -Container $container.Name -Context $context | Where-Object {$_.LastModified -lt (Get-Date).AddHours(-$CleanupTime)} | Remove-AzureStorageBlob
